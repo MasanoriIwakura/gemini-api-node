@@ -1,7 +1,13 @@
 import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import readline from "node:readline";
 
 dotenv.config();
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 async function callGemini(promptText: string) {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -16,4 +22,7 @@ async function callGemini(promptText: string) {
   console.log(result.response.text());
 }
 
-callGemini("Explain how AI works");
+const userPrompt = rl.question("Enter your prompt: ", (prompt) => {
+  callGemini(prompt);
+  rl.close();
+});
